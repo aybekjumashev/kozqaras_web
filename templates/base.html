@@ -1,0 +1,246 @@
+{% load static %}
+<!doctype html>
+{# Tema mánisin alıw (eger aldınnan belgisiz bolsa, standart 'dark') #}
+{% with effective_theme=request.COOKIES.theme|default:"dark" %}
+<html lang="qq" data-bs-theme="{{ effective_theme }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  {# --- BASLANǴÍSH/ULÍWMA META TEGLAR --- #}
+  <title>{% block title %}Kózqaras{% endblock title %}</title> {# <<< Jańa Blok: Bet ataması #}
+  <meta name="description" content="{% block meta_description %}Qaraqalpaq tilindegi zamanagóy ilimiy-texnikalıq maqalalar hám pikirler.{% endblock meta_description %}">
+  <meta name="keywords" content="{% block meta_keywords %}qaraqalpaq, qaraqalpaqsha, ilim, texnika, maqala, kózqaras, pán, izertlew{% endblock meta_keywords %}">
+  <meta name="author" content="{% block meta_author %}Aybek Jumashev{% endblock meta_author %}"> {# <<< Sayt ulıwma avtorı/brendi >>> #}
+  <link rel="icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon"> {# <<< Favicon qosıń (eger bar bolsa) >>> #}
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff"> {# Ashıq tema ushın reń #}
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a"> {# Qarańǵı tema ushın reń #}
+  <meta name="robots" content="index, follow"> {# Izlew sistemaları ushın kórsetpe #}
+
+  {# --- CANONICAL URL --- #}
+  <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock canonical_url %}">
+
+  {# --- OPEN GRAPH (Facebook, LinkedIn, h.t.b.) --- #}
+  <meta property="og:site_name" content="Kózqaras">
+  <meta property="og:type" content="{% block og_type %}website{% endblock og_type %}"> {# Standart 'website', maqala betinde 'article' boladı #}
+  <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock og_url %}">
+  <meta property="og:title" content="{% block og_title %}{% block og_title_inner %}{% endblock %}{% if not self.og_title_inner %}Kózqaras{% endif %}{% endblock og_title %}"> {# Blok ishinde blok #}
+  <meta property="og:description" content="{% block og_description %}Qaraqalpaq tilindegi zamanagóy ilimiy-texnikalıq maqalalar hám pikirler.{% endblock og_description %}"> {# meta_description di qaytalaw #}
+  <meta property="og:image" content="{% block og_image %}{% static 'images/logo.png' %}{% endblock og_image %}"> {# <<< Standart súwret qosıń >>> #}
+  <meta property="og:image:alt" content="{% block og_image_alt %}Kózqaras logotipi{% endblock %}">
+  {# <meta property="og:locale" content="kaa_AA"> #} {# Qaraqalpaq tili ushın durıs kodtı tabıw kerek boladı #}
+
+
+  {# Bootstrap ikonka SVG (ózgermedi) #}
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="sun-fill" viewBox="0 0 16 16">
+      <path fill="currentColor" d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707z"/>
+   </symbol>
+   <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+    <path fill="currentColor" d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+    <path fill="currentColor" d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+  </symbol>
+  <symbol id="check2" viewBox="0 0 16 16">
+    <path fill="currentColor" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+  </symbol>
+  </svg>
+
+  <!-- Bootstrap CSS (CDN) -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- Ózimizdiń CSS (Bootstrap'tan KEYIN) -->
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+
+<body class="d-flex flex-column min-vh-100"> {# Futerdi tómende ustap turıw ushın #}
+
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" id="mainNavbar">
+    <div class="container main-container"> {# Jańa klass qosıldı #}
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% if request.GET.b != 'False' %}{% url 'home' %}{% else %}#{% endif %}">
+          <img src="/static/images/logo.png" alt="Logo" style="height: 1em;">
+          <span>Kózqaras</span>
+        </a>
+        <div id="navbarNav">
+          {# --- TEMA AWTIRMASı --- #}
+          <div class="dropdown ms-lg-2"> {# Sál shepke jılıstırıw #}
+            <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" id="bd-theme" data-bs-toggle="dropdown" aria-expanded="false">
+              <svg class="bi my-1 theme-icon-active me-2"><use href="#moon-stars-fill"></use></svg> {# Standart ikonka ózgerdi #}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end bg-theme" aria-labelledby="bd-theme">
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light">
+                  <svg class="bi me-2 theme-icon"><use href="#sun-fill"></use></svg>
+                  Kúndizgi
+                  <svg class="bi ms-auto d-none check-icon"><use href="#check2"></use></svg>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark">
+                  <svg class="bi me-2 theme-icon"><use href="#moon-stars-fill"></use></svg>
+                  Túngi
+                  <svg class="bi ms-auto d-none check-icon"><use href="#check2"></use></svg>
+                </button>
+              </li>
+            </ul>
+          </div>
+          {# --- TEMA AWTIRMASıNıŃ AQırı --- #}
+
+        </div>
+      </div>
+  </nav>
+
+  <main class="container main-container py-3"> {# Jańa klass hám flex-shrink-0 #}
+     {% block content %}
+     {# Betlerdiń tiykarǵı mazmunı usı jerge túsedi #}
+     {% endblock %}
+  </main>
+
+  <footer class="footer mt-auto py-3"> {# mt-auto - futerdi tómenge ıǵdırıw ushın #}
+    <div class="container main-container text-center"> {# Jańa klass qosıldı #}
+      <span class="text-secondary">© {% now "Y" %} - Kózqaras</span>
+    </div>
+  </footer>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  {# --- TEMA AWTIRMASı JavaScript (Kishi ózgeris penen) --- #}
+  <script>
+    /*!
+     * Color mode toggler for Bootstrap's docs (https://getbootstrap.com/)
+     * Copyright 2011-2024 The Bootstrap Authors
+     * Licensed under the Creative Commons Attribution 3.0 Unported License.
+     */
+
+    (() => {
+      'use strict'
+
+      const getStoredTheme = () => localStorage.getItem('theme')
+      const setStoredTheme = theme => localStorage.setItem('theme', theme)
+
+      const getPreferredTheme = () => {
+        const storedTheme = getStoredTheme()
+        if (storedTheme) {
+          return storedTheme
+        }
+        // <<< Standart tema endi 'dark'
+        return 'dark'
+      }
+
+      const setTheme = theme => {
+        let effectiveTheme = theme;
+        if (theme === 'auto') {
+          effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', effectiveTheme);
+
+        // <<< JAŃA: Tema ózgergeni haqqında járiya shıǵarıw >>>
+        const event = new CustomEvent('themeChanged', { detail: { theme: effectiveTheme } });
+        document.dispatchEvent(event);
+        // <<< JÁRIYA SHÍǴARÍLDÍ >>>
+      }
+
+      // Bet júklengende temani sazlaw
+      setTheme(getPreferredTheme())
+
+      const showActiveTheme = (theme, focus = false) => {
+        const themeSwitcher = document.querySelector('#bd-theme')
+
+        if (!themeSwitcher) {
+          return
+        }
+
+        const themeSwitcherText = document.querySelector('#bd-theme-text')
+        const activeThemeIcon = document.querySelector('.theme-icon-active use')
+        // <<< Aktiv temanı anıqlaw ushın qosımsha tekseriw
+        const activeTheme = theme === 'auto' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme;
+        const btnToActive = document.querySelector(`[data-bs-theme-value="${theme}"]`) // Bul ózgermeydi, tańlanǵan mánisti kórsetedi
+        const svgOfCurrentBtn = btnToActive.querySelector('svg use').getAttribute('href') // Sol tańlanǵan mánis ikonkasın alıw
+
+        // Aktiv ikonkanı tiykarǵı knopkaǵa qoyıw
+        activeThemeIcon.setAttribute('href', svgOfCurrentBtn);
+
+        // Dropdown menyuda durıs elementti belgilew
+        document.querySelectorAll('[data-bs-theme-value]').forEach(element => {
+          element.classList.remove('active')
+          element.querySelector('.check-icon').classList.add('d-none')
+        })
+        btnToActive.classList.add('active')
+        btnToActive.querySelector('.check-icon').classList.remove('d-none')
+
+
+        if (focus) {
+          themeSwitcher.focus()
+        }
+      }
+
+      // Sistema teması ózgergende tıńlaw
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        const storedTheme = getStoredTheme()
+        if (storedTheme !== 'light' && storedTheme !== 'dark') { // Tek 'auto' rejimi ushın qayta sazlaw
+          setTheme(getPreferredTheme())
+          showActiveTheme('auto'); // Aktiv temanı jańalaw
+        }
+      })
+
+      // DOM júklengende aktiv temanı kórsetiw hám basqıshlardı tıńlaw
+      window.addEventListener('DOMContentLoaded', () => {
+        showActiveTheme(getPreferredTheme())
+
+        document.querySelectorAll('[data-bs-theme-value]')
+          .forEach(toggle => {
+            toggle.addEventListener('click', () => {
+              const theme = toggle.getAttribute('data-bs-theme-value')
+              setStoredTheme(theme)
+              setTheme(theme)
+              showActiveTheme(theme, true)
+            })
+          })
+      })
+    })()
+  </script>
+  {# --- TEMA AWTIRMASı JAVASCRIPT AQırı --- #}
+
+  {# --- NAVBAR JASÍRÍW/KÓRSETIW JavaScript --- #}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navbar = document.getElementById('mainNavbar');
+    if (navbar) { // Navbar bar ekenligin tekseriw
+      let lastScrollTop = 0;
+      const delta = 5; // Kishi scroll háreketlerinde jasırılmawı ushın shegara
+      const navbarHeight = navbar.offsetHeight; // Navbar biyikligi
+
+      window.addEventListener('scroll', function() {
+        let currentScroll = window.scrollY || document.documentElement.scrollTop;
+
+        // Scroll tómenge me, joqarıǵa ma ekenin tekseriw
+        if (Math.abs(lastScrollTop - currentScroll) <= delta) {
+          // Eger scroll háreketi júdá kishi bolsa, hesh nárse istemew
+          return;
+        }
+
+        if (currentScroll > lastScrollTop && currentScroll > navbarHeight) {
+          // Scroll tómenge hám navbar biyikliginen ótti -> Navbar'dı jasırıw
+          navbar.classList.add('navbar-hidden');
+        } else {
+          // Scroll joqarıǵa yamasa bettiń eń joqarısına jaqın -> Navbar'dı kórsetiw
+          if (currentScroll + window.innerHeight < document.documentElement.scrollHeight || currentScroll <= 0) {
+             // Eger tómenge jetip qalmaǵan bolsa yamasa eń joqarıda bolsa
+             navbar.classList.remove('navbar-hidden');
+          }
+        }
+
+        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Aqırǵı poziciyanı saqlaw
+      }, false);
+    }
+  });
+</script>
+{# --- NAVBAR JASÍRÍW/KÓRSETIW JAVASCRIPT AQırı --- #}
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
+{% endwith %}

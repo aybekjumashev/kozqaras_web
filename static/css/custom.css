@@ -1,0 +1,247 @@
+/* static/css/custom.css */
+
+/* ------------------------- */
+/* Shriftler hám Tiykarǵı Sazlawlar */
+/* ------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap'); /* Jaqsıraq shrift */
+
+
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem; /* Standart ólshem */
+    /* Fon reńi tema arqalı basqarıladı */
+}
+svg {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* Silteme stilleri */
+a {
+    color: var(--bs-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+a:hover {
+    color: var(--bs-primary-text-emphasis);
+    text-decoration: underline;
+}
+
+/* ------------------------- */
+/* Navbar */
+/* ------------------------- */
+.navbar {
+    /* Qarańǵı tema ushın fon bg-dark jaqsı, biraq sál ózgertiw múmkin */
+    /* background-color: #1c1c1c !important; */ /* Máselen */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Qarańǵı temada kóleńke */
+}
+.navbar-brand {
+    font-weight: 700; /* Qalıńlaw */
+    font-size: 1.4rem;
+}
+.navbar .nav-link {
+    font-weight: 600;
+}
+.navbar .nav-link.active {
+    color: var(--bs-primary) !important; /* Aktiv silteme reńi */
+}
+.navbar .form-control {
+    background-color: rgba(255, 255, 255, 0.1); /* Izlew maydanı fonı */
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--bs-light);
+}
+.navbar .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+.navbar .form-control:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: var(--bs-primary);
+    box-shadow: none;
+    color: var(--bs-light);
+}
+.navbar .btn-outline-success {
+    --bs-btn-color: var(--bs-success);
+    --bs-btn-border-color: var(--bs-success);
+    --bs-btn-hover-bg: var(--bs-success);
+    --bs-btn-hover-border-color: var(--bs-success);
+    --bs-btn-active-bg: var(--bs-success);
+    --bs-btn-active-border-color: var(--bs-success);
+}
+
+#mainNavbar { /* ID selektorın qollanamız */
+    transition: transform 0.3s ease-in-out; /* Tegis jılısıw ushın */
+}
+
+#mainNavbar.navbar-hidden {
+    transform: translateY(-100%); /* Navbar'dı óz biyikligi boyınsha joqarıǵa jılıstırıw */
+}
+
+/* Tema awtırması stilleri */
+#bd-theme {
+    --bs-btn-color: var(--bs-gray-400);
+    --bs-btn-border-color: var(--bs-gray-600);
+    --bs-btn-hover-bg: var(--bs-gray-700);
+    --bs-btn-hover-border-color: var(--bs-gray-500);
+    --bs-btn-active-bg: var(--bs-gray-600);
+    --bs-btn-active-border-color: var(--bs-gray-500);
+}
+.dropdown-menu {
+    --bs-dropdown-bg: var(--bs-dark-bg-subtle); /* Ashılatuǵın menyu fonı */
+    --bs-dropdown-link-hover-bg: var(--bs-light-bg-subtle);
+    --bs-dropdown-link-active-bg: var(--bs-primary);
+    --bs-dropdown-border-color: var(--bs-border-color-translucent);
+}
+
+/* ------------------------- */
+/* Tiykarǵı Konteyner hám Baslıqlar */
+/* ------------------------- */
+.main-container { /* Jańa klass */
+    max-width: 900px; /* Optimal keńlik */
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+    color: var(--bs-heading-color); /* Temaǵa beyimlesiw */
+}
+/* ------------------------- */
+/* MAQALA DIZIMI GRIDI (article_list.html) */
+/* ------------------------- */
+.article-card { /* Jańa klass */
+    background-color: var(--bs-tertiary-bg);
+    border-radius: 0.75rem;
+    border: 1px solid var(--bs-border-color-translucent);
+    overflow: hidden; /* Múyeshler ushın */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    height: 100%; /* Kolonkalar biyikligin teńlestiriw ushın */
+    display: flex; /* Ishki elementlerdi basqarıw ushın */
+    flex-direction: column; /* Vertikal jaylasıw */
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    [data-bs-theme="dark"] & {
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+}
+
+.article-card .card-img-container { /* Súwret ushın arnawlı konteyner */
+    height: 200px; /* Anıq biyiklik beriw */
+    overflow: hidden; /* Súwret sırtqa shıqpawı ushın */
+}
+
+.article-card .card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Súwretti durıs kesip kórsetiw */
+    transition: transform 0.3s ease; /* Súwretke hover effekti */
+}
+
+.article-card:hover .card-img-top {
+    transform: scale(1.05); /* Hoverde súwretti sál úlkeytiw */
+}
+
+.article-card .card-body {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Kartochkanıń qalǵan bólimin iyelew */
+}
+
+.article-card .article-card-title { /* Jańa klass */
+    color: var(--bs-heading-color);
+    font-weight: 600;
+    font-size: 1.15rem;
+    text-decoration: none;
+    display: block; /* Tolıq keńlikti iyelew */
+}
+.article-card .article-card-title:hover {
+    color: var(--bs-primary);
+    text-decoration: none;
+}
+
+.article-card .card-text.meta { /* Sáne ushın klass */
+    font-size: 0.85rem;
+    color: var(--bs-secondary-color);
+}
+
+.article-card .badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.4em 0.7em;
+    margin-bottom: 0.3rem;
+    display: inline-block;
+    background-color: var(--bs-primary-bg-subtle); /* Temaǵa beyimlesiw */
+    color: var(--bs-primary-text-emphasis);
+    border: 1px solid var(--bs-primary-border-subtle);
+}
+
+
+blockquote {
+    border-left: 3px solid var(--bs-primary);
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+blockquote p {
+    margin-bottom: 0;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto !important;
+}
+
+/* ------------------------- */
+/* Betlew (Pagination) */
+/* ------------------------- */
+.pagination .page-link {
+    border-radius: 0.3rem; /* Jumsaqlıq */
+    margin: 0 0.2rem; /* Aralarına boslıq */
+    border: none; /* Ramkanı alıp taslaw */
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-secondary-color);
+}
+.pagination .page-item.active .page-link {
+    background-color: var(--bs-primary);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.pagination .page-item.disabled .page-link {
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-tertiary-color);
+}
+.pagination .page-link:hover {
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-primary);
+}
+.pagination .page-item.active .page-link:hover {
+     background-color: var(--bs-primary); /* Aktiv elementtiń hover reńin ózgertpew */
+     color: white;
+}
+
+
+/* ------------------------- */
+/* Futer */
+/* ------------------------- */
+.footer {
+   padding: 2rem 0;
+   background-color: var(--bs-dark-bg-subtle); /* Qarańǵı tema fonı */
+   border-top: 1px solid var(--bs-border-color-translucent);
+   color: var(--bs-secondary-color); /* Futer tekst reńi */
+   font-size: 0.9rem;
+}
+
+/* ------------------------- */
+/* Arnawlı Light Tema Ózgerisleri (Kerek Bolsa) */
+/* ------------------------- */
+[data-bs-theme="light"] {
+    .article-list-item:hover {
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    .article-content img {
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    .footer {
+        background-color: var(--bs-light); /* Ashıq tema fonı */
+    }
+    /* Basqa kerekli ózgerisler */
+}

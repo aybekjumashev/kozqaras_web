@@ -1,0 +1,22 @@
+# Django files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+
+# Environment files
+.env
+
+# VSCode and other editor folders
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+
+# Migrations (ixtiyoriy, agar umumiy qo'shishni istamasang)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+*/migrations/*.pyo
+*/migrations/*.pyd

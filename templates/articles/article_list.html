@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+  {% if query %}Izlew nátiyjeleri: "{{ query }}"{% elif category %}{{ category.name }} Kategoriyası{% else %}Maqalalar{% endif %}
+{% endblock %}
+
+{% block content %}
+  {# --- IZLEW FORMASı --- #}
+  {% if articles|length > 3 %}
+  <form class="d-flex mx-lg-5 mt-lg-3 mb-lg-5 mt-1" role="search" method="get" action="{% url 'search_results' %}">
+    <input class="form-control me-2" type="search" placeholder="Maqala izlew..." aria-label="Search" name="q" value="{{ request.GET.q }}">
+    <button class="btn btn-outline-success" type="submit">Izlew</button>
+  </form>
+  {% endif %}
+  {# --- IZLEW FORMASıNıŃ AQırı --- #}
+  <div class="d-flex justify-content-between align-items-center mb-4 pb-2 mt-4 border-bottom border-secondary-subtle">
+      <h1 class="mb-0 h2">
+        {% if query %}
+           "{{ query }}" ushın nátiyjeler
+        {% elif category %}
+           {{ category.name }}
+        {% else %}
+           Barlıq Maqalalar
+        {% endif %}
+      </h1>
+  </div>
+
+  {% if articles %}
+    {# Maqalalar ushın Grid Konteyneri #}
+    <div class="row row-cols-1 row-cols-md-2 g-4"> {# Small ekranda 1, Medium hám onnan úlkende 2 kolonka, Aralıq g-4 #}
+
+      {% for article in articles %}
+        <div class="col">
+          <div class="card article-card shadow-sm"> {# Jańa klass hám kishi kóleńke #}
+            {% if article.featured_image %}
+              <div class="card-img-container"> {# Súwret konteyneri #}
+                 <a href="{{ article.get_absolute_url }}">
+                     <img src="{{ article.featured_image.url }}" class="card-img-top" alt="{{ article.title }} súwreti">
+                 </a>
+              </div>
+            {% endif %}
+            <div class="card-body">
+              <h3 class="h5 article-card-title"> {# H5 ólsheminde atama #}
+                <a href="{{ article.get_absolute_url }}" class="stretched-link"> {# Silteme pútkil kartochkanı qaplaydı #}
+                  {{ article.title }}
+                </a>
+              </h3>
+              {# Kategoriyalar bólimi (tómende) #}
+              <div class="card-categories mb-3"> {# mt-auto #}
+                {% if article.categories.all %}
+                  {% for cat in article.categories.all|slice:":3" %}
+                    <span class="badge rounded-pill fw-normal mb-1">{{ cat.name }}</span> {# me-1 mb-1 qosıldı #}
+                  {% endfor %}
+                  {% if article.categories.count > 3 %}
+                    <span class="badge rounded-pill bg-secondary fw-normal me-1 mb-1">+{{ article.categories.count|add:"-3" }}</span>
+                  {% endif %}
+                {% endif %}
+              </div>
+              
+              <p class="card-text meta mb-0 mt-auto text-secondary d-flex justify-content-between">
+                  <small>{{ article.published_date|format_kaa_date }}</small>
+                  <small class="text-secondary">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-eye-fill me-1 mb-1" viewBox="0 0 16 16"><path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/><path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/></svg>
+                      {{ article.view_count }}
+                  </small>
+              </p>
+
+            </div> {# card-body aqırı #}
+          </div> {# card aqırı #}
+        </div> {# col aqırı #}
+      {% endfor %}
+
+    </div> {# row aqırı #}
+
+    {# --- BETLEW (PAGINATION) NAVIGACIYASı (ózgermedi, biraq stilleri jańalandı) --- #}
+    {% if paginator.num_pages > 1 %}
+      <nav aria-label="Maqala betleri" class="mt-5">
+        <ul class="pagination justify-content-center">
+          {# Aldınǵı betke silteme #}
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if category %}category_slug={{ category.slug }}&{% endif %}page={{ page_obj.previous_page_number }}" aria-label="Aldınǵı"><span>«</span></a></li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">«</span></li>
+          {% endif %}
+
+          {# Bet nomerleri #}
+          {% for num in paginator.page_range %}
+            {% if page_obj.number == num %}
+              <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+              <li class="page-item"><a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if category %}category_slug={{ category.slug }}&{% endif %}page={{ num }}">{{ num }}</a></li>
+            {% elif num == 1 and page_obj.number > 4 %}
+              <li class="page-item"><a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if category %}category_slug={{ category.slug }}&{% endif %}page=1">1</a></li>
+              {% if page_obj.number > 5 %}<li class="page-item disabled"><span class="page-link">...</span></li>{% endif %}
+             {% elif num == paginator.num_pages and page_obj.number < paginator.num_pages|add:'-3' %}
+               {% if page_obj.number < paginator.num_pages|add:'-4' %}<li class="page-item disabled"><span class="page-link">...</span></li>{% endif %}
+               <li class="page-item"><a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if category %}category_slug={{ category.slug }}&{% endif %}page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+            {% endif %}
+          {% endfor %}
+
+          {# Keyingi betke silteme #}
+          {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?{% if query %}q={{ query }}&{% endif %}{% if category %}category_slug={{ category.slug }}&{% endif %}page={{ page_obj.next_page_number }}" aria-label="Keyingi"><span>»</span></a></li>
+          {% else %}
+            <li class="page-item disabled"><span class="page-link">»</span></li>
+          {% endif %}
+        </ul>
+      </nav>
+    {% endif %}
+    {# --- BETLEW NAVIGACIYASıNıŃ AQırı --- #}
+
+  {% else %} {# Eger articles ulıwma bos bolsa #}
+    <div class="alert alert-info mt-4" role="alert">
+        {% if query %}
+           "{{ query }}" boyınsha hesh nárse tabılmadı.
+        {% elif category %}
+           Bul kategoriyada házirshe hesh qanday maqala joq.
+        {% else %}
+           Házirshe hesh qanday maqala jaylastırılmaǵan.
+        {% endif %}
+    </div>
+  {% endif %}
+
+  {# Barlıq maqalalarǵa qaytıw siltemesi #}
+  {% if category or query %}
+    <div class="mt-4 text-center">
+        <a href="{% url 'article_list' %}" class="btn btn-outline-secondary">← Barlıq maqalalardı kóriw</a>
+    </div>
+  {% endif %}
+
+{% endblock %}
