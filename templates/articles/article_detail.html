@@ -55,7 +55,7 @@
             {% if article.author %}
             {# Avtor profili betine silteme (házirshe #) #}
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-person-fill me-1 mb-1" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/></svg>
-            <a href="{{ article.author.get_absolute_url }}" class="link-secondary text-decoration-none">{{ article.author.full_name }}</a>
+            <a href="{{ article.author.website }}" class="link-secondary text-decoration-none">{{ article.author.full_name }}</a>
             <span class="mx-2">|</span>
             {% endif %}
             {{ article.published_date|format_kaa_date }}
