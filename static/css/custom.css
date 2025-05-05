@@ -70,6 +70,7 @@ a:hover {
 
 #mainNavbar { /* ID selektorın qollanamız */
     transition: transform 0.3s ease-in-out; /* Tegis jılısıw ushın */
+    z-index: 1030; 
 }
 
 #mainNavbar.navbar-hidden {
@@ -95,9 +96,7 @@ a:hover {
 /* ------------------------- */
 /* Tiykarǵı Konteyner hám Baslıqlar */
 /* ------------------------- */
-.main-container { /* Jańa klass */
-    max-width: 900px; /* Optimal keńlik */
-}
+
 
 h1, h2, h3, h4, h5, h6 {
     font-weight: 700;
@@ -245,3 +244,79 @@ blockquote p {
     }
     /* Basqa kerekli ózgerisler */
 }
+
+
+
+#toc-nav {
+    /* max-height hám overflow base.html de berilgen */
+    padding-right: 0.5rem; /* Scrollbar ushın orın */
+}
+
+#toc-nav .nav-link.toc-link {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    color: var(--bs-secondary-color);
+    border-left: 3px solid transparent; /* Aktiv emes shegara */
+    font-size: 0.9rem;
+    transition: all 0.15s ease-in-out;
+    overflow: visible;         /* Sıymasa jasırıw */
+    text-overflow: ellipsis;  /* Aqırına (...) qoyıw */
+}
+
+#toc-nav .nav-link.toc-link:hover {
+    color: var(--bs-body-color);
+    background-color: var(--bs-tertiary-bg);
+    border-left-color: var(--bs-secondary-bg-subtle);
+}
+
+#toc-nav .nav-link.toc-link.active {
+    color: var(--bs-primary);
+    border-left-color: var(--bs-primary);
+    background-color: transparent;
+}
+
+/* Hár qıylı dárejeler ushın shep sheginiw */
+#toc-nav .ps-3 { padding-left: 1rem !important; } /* H2 ushın */
+#toc-nav .ps-4 { padding-left: 1.75rem !important; } /* H3 ushın */
+#toc-nav .ps-5 { padding-left: 2.5rem !important; } /* H4 ushın (eger qosılsa) */
+
+/* Sidebar kartochkası stilleri (kerek bolsa) */
+.sticky-top .card {
+    background-color: var(--bs-body-bg); /* Temaǵa beyimlesiw */
+}
+.sticky-top .card-header {
+    background-color: var(--bs-tertiary-bg);
+    border-bottom: 1px solid var(--bs-border-color-translucent);
+}
+
+.hero-section {
+    position: relative;
+    background-color: #212529;
+}
+
+.hero-bg-image {
+    position: absolute;
+    inset: 0;
+    background: url('/static/images/logo.png') no-repeat center center;
+    background-size: cover;
+    opacity: 0.05; /* Faqat rasmga ta'sir qiladi */
+    z-index: 0;
+}
+
+.hero-bg-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(50, 10, 90, 0.7), rgba(10, 60, 120, 0.8));
+    z-index: 1;
+}
+
+.hero-section .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Light tema uchun */
+[data-bs-theme="light"] .hero-bg-gradient {
+    background: linear-gradient(135deg, rgba(100, 150, 250, 0.7), rgba(200, 220, 255, 0.8));
+}
+

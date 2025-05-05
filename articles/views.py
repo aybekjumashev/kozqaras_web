@@ -5,8 +5,16 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, F
 from .utils import normalize_text
 
-def home(request):
-    return redirect('article_list')
+def home_page(request):
+    """Sayttıń tiykarǵı betin kórsetedi."""
+    latest_articles = Article.objects.filter(
+        published_date__lte=timezone.now()
+    ).order_by('-published_date')[:3] 
+
+    context = {
+        'latest_articles': latest_articles,
+    }
+    return render(request, 'home.html', context) 
 
 
 def search_results(request):

@@ -7,14 +7,14 @@
 {% endblock %}
 
 {% block content %}
-  {# --- IZLEW FORMASı --- #}
-  {% if articles|length > 3 %}
-  <form class="d-flex mx-lg-5 mt-lg-3 mb-lg-5 mt-1" role="search" method="get" action="{% url 'search_results' %}">
-    <input class="form-control me-2" type="search" placeholder="Maqala izlew..." aria-label="Search" name="q" value="{{ request.GET.q }}">
-    <button class="btn btn-outline-success" type="submit">Izlew</button>
-  </form>
-  {% endif %}
-  {# --- IZLEW FORMASıNıŃ AQırı --- #}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i> Bas bet</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Maqalalar</li>
+    </ol>
+  </nav>
+
+
   <div class="d-flex justify-content-between align-items-center mb-4 pb-2 mt-4 border-bottom border-secondary-subtle">
       <h1 class="mb-0 h2">
         {% if query %}
@@ -29,7 +29,7 @@
 
   {% if articles %}
     {# Maqalalar ushın Grid Konteyneri #}
-    <div class="row row-cols-1 row-cols-md-2 g-4"> {# Small ekranda 1, Medium hám onnan úlkende 2 kolonka, Aralıq g-4 #}
+    <div class="row row-cols-1 row-cols-md-3 g-4"> {# Small ekranda 1, Medium hám onnan úlkende 2 kolonka, Aralıq g-4 #}
 
       {% for article in articles %}
         <div class="col">
@@ -54,7 +54,7 @@
                     <span class="badge rounded-pill fw-normal mb-1">{{ cat.name }}</span> {# me-1 mb-1 qosıldı #}
                   {% endfor %}
                   {% if article.categories.count > 3 %}
-                    <span class="badge rounded-pill bg-secondary fw-normal me-1 mb-1">+{{ article.categories.count|add:"-3" }}</span>
+                    <span class="badge rounded-pill bg-body fw-normal me-1 mb-1">+{{ article.categories.count|add:"-3" }}</span>
                   {% endif %}
                 {% endif %}
               </div>
