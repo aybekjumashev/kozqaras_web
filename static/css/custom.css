@@ -320,3 +320,30 @@ blockquote p {
     background: linear-gradient(135deg, rgba(100, 150, 250, 0.7), rgba(200, 220, 255, 0.8));
 }
 
+#scrollTopButton {
+    position: fixed; /* Bet penen birge scroll bolmaydı */
+    bottom: 20px;    /* Tómengi shetten aralıq */
+    right: 20px;     /* Oń shetten aralıq */
+    z-index: 1030;   /* Basqa elementlerden joqarıda turıwı ushın (mısalı, navbar'dan) */
+    opacity: 0;      /* Basında kórinbeydi */
+    visibility: hidden; /* Basında jasırın */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out, transform 0.3s ease-in-out; /* Tegis ótiwler */
+    transform: translateY(10px); /* Basında sál tómen turadı (effekt ushın) */
+
+    /* Bootstrap knopka stillerin sál ózgertiw (kerek bolsa) */
+}
+
+#scrollTopButton.show {
+    opacity: 0.8; /* Kóringen waqıtta sál móldirlew */
+    visibility: visible; /* Kórinetuǵın etiw */
+    transform: translateY(0); /* Óz ornına qaytıw */
+}
+
+#scrollTopButton:hover {
+    opacity: 1; /* Hoverde tolıq kórinis */
+}
+
+/* Ikonkanı vertikal ortalaw (eger kerek bolsa) */
+#scrollTopButton .bi {
+    vertical-align: -0.1em;
+}

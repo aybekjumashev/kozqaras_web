@@ -39,7 +39,6 @@
 
 
 {% block content %}
-{% if request.GET.b != 'False' %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/"><i class="bi bi-house-door"></i> Bas bet</a></li>
@@ -50,7 +49,6 @@
     
     </ol>
 </nav>
-{% endif %}
 <div class="row g-lg-5">
     {# --- MAZMUNLAR DIZIMI SIDEBAR --- #}
     <div class="col-lg-4 order-lg-last mb-4 mb-lg-0 d-none d-lg-block"> 
@@ -122,23 +120,15 @@
             </div>
             <noscript>Pikirlerdi kóriw ushın JavaScriptti aktivlestiriń.</noscript>
             </div>
-        {% endif %} {# <<< TEKSERIW AQIRI >>> #}
+        {% endif %} 
     </article>
 
-    
-        {% if request.GET.b != 'False' %}
-            <div class="mt-5 text-center border-top border-secondary-subtle pt-4">
-                <a href="{% url 'article_list' %}" class="btn btn-outline-secondary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
-                    </svg> 
-                    <span>Barlıq maqalalar</span>
-                </a>
-            </div>
-        {% endif %}
 
     </div>
 </div>
+<a href="#" id="scrollTopButton" class="btn btn-primary btn-lg rounded-circle shadow" aria-label="Joqarıǵa shıǵıw">
+    <svg class="bi" fill="currentColor"><use href="#arrow-up-short"></use></svg>
+</a>
 {% endblock %}
 
 {% block extra_js %} {# <-- Bettiń ózine tán JavaScript ushın blok #}
@@ -368,4 +358,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 </script>
+{# --- JOQARÍǴA SHÍǴÍW KNOPKASÍ Skripti --- #}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollTopBtn = document.getElementById('scrollTopButton');
+
+    if (scrollTopBtn) {
+        // Scroll háreketin tıńlaw
+        window.addEventListener('scroll', () => {
+            // Qansha piksel tómenge túskende knopka kórinsin
+            const scrollThreshold = 200;
+            if (window.scrollY > scrollThreshold) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        // Knopka basılǵanda islew
+        scrollTopBtn.addEventListener('click', (event) => {
+            event.preventDefault(); // Standart silteme háreketin biykar etiw
+            window.scrollTo({
+                top: 0, // Eń joqarıǵa
+                behavior: 'smooth' // Tegis scroll
+            });
+        });
+    }
+});
+</script>
+{# --- JOQARÍǴA SHÍǴÍW Skripti AQIRI --- #}
+
 {% endblock %}

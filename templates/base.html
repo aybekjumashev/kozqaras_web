@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   {# --- BASLANǴÍSH/ULÍWMA META TEGLAR --- #}
-  <title>{% block title %}Kózqaras{% endblock title %}</title> {# <<< Jańa Blok: Bet ataması #}
+  <title>{% block title %}Kózqaras{% endblock title %}</title> 
   <meta name="description" content="{% block meta_description %}Qaraqalpaq tilindegi zamanagóy ilimiy-texnikalıq maqalalar hám pikirler.{% endblock meta_description %}">
   <meta name="keywords" content="{% block meta_keywords %}qaraqalpaq, qaraqalpaqsha, ilim, texnika, maqala, kózqaras, pán, izertlew{% endblock meta_keywords %}">
   <meta name="author" content="{% block meta_author %}Aybek Jumashev{% endblock meta_author %}"> {# <<< Sayt ulıwma avtorı/brendi >>> #}
@@ -44,6 +44,9 @@
   <symbol id="check2" viewBox="0 0 16 16">
     <path fill="currentColor" d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
   </symbol>
+  <symbol id="arrow-up-short" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" fill="currentColor" d="M8 12a.5.5 0 0 0 .5-.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 .5.5z"/>
+  </symbol>
   </svg>
 
   <!-- Bootstrap CSS (CDN) -->
@@ -60,7 +63,7 @@
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top" id="mainNavbar">
     <div class="container main-container"> 
-        <a class="navbar-brand d-flex align-items-center gap-2" href="{% if request.GET.b != 'False' %}{% url 'home' %}{% else %}#{% endif %}">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{% url 'home' %}">
           <img src="/static/images/logo.png" alt="Logo" style="height: 1em;">
           <span>Kózqaras</span>
         </a>
