@@ -38,6 +38,10 @@ def get_comment_widget(post_url):
         if tgme_post_discussion_header_wrap:
             tgme_post_discussion_header_wrap.decompose()
         
+        tme_messages_more = soup.find('div', class_='tme_messages_more')
+        if tme_messages_more:
+            tme_messages_more.decompose()
+        
         for a in soup.find_all('a'):
             a.name = 'span'
         
