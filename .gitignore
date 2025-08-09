@@ -20,3 +20,6 @@ __pycache__/
 */migrations/*.pyc
 */migrations/*.pyo
 */migrations/*.pyd
+
+staticfiles/
+media/
