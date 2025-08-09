@@ -27,6 +27,8 @@ def get_comment_widget(post_url):
 
     if response.status_code == 200:
         html_content = response.text
+        if 'Be the first to add a comment' in html_content:
+            return None
         soup = BeautifulSoup(html_content, 'html.parser')
         login_div = soup.find('div', class_='tgme_post_discussion_login')
         if login_div:
