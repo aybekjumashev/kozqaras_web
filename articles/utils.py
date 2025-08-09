@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-import cssutils
 from datetime import datetime
 from .templatetags.custom_filters import format_kaa_date
 
