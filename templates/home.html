@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
+{% load custom_filters %}
+
 
 {% block title %}Kózqaras{% endblock %}
 
@@ -45,8 +47,8 @@
                   {{ article.title|truncatechars:70 }} 
                 </a>
               </h3>
-              <p class="card-text meta mb-3">
-                <small>{{ article.published_date|date:"j F Y" }}</small>
+              <p class="card-text text-secondary meta mb-3">
+                <small>{{ article.published_date|format_kaa_date }}</small>
               </p>
               <div class="card-categories"> {# mt-auto #}
                 {% if article.categories.all %}

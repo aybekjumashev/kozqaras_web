@@ -3,7 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Article, Category
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger 
 from django.db.models import Q, F
-from .utils import normalize_text
+from .utils import normalize_text, get_comment_widget
+from django.utils import timezone
+
 
 def home_page(request):
     """Sayttıń tiykarǵı betin kórsetedi."""
@@ -82,24 +84,24 @@ def article_detail(request, slug):
     """Bir maqalaniń detaların kórsetedi hám kóriwler sanın asıradı."""
     article = get_object_or_404(Article, slug=slug, published_date__lte=timezone.now())
 
-    # <<< KÓRIWLER SANÍN ASÍRÍW >>>
-    # F() arqalı bazada atomik (bólinbeytuǵın) túrde +1 operaciyasın orınlaw
     article.view_count = F('view_count') + 1
-    article.save(update_fields=['view_count']) # Tek usı maydandı jańalaw
-    # <<< ASÍRÍW AQIRI >>>
+    article.save(update_fields=['view_count'])
 
-    # Maqalani jańalanǵan mánis penen qayta júklew (kontekstke durıs san barıwı ushın)
     article.refresh_from_db()
 
     full_image_url = None
     if article.featured_image:
         full_image_url = request.build_absolute_uri(article.featured_image.url)
 
+
     context = {
         'article': article,
         'full_image_url': full_image_url,        
         }
+        
+    if article.telegram_post_url:
+        comment_widget = get_comment_widget(article.telegram_post_url)
+        if comment_widget:
+            context['comment_widget'] = comment_widget
+    
     return render(request, 'articles/article_detail.html', context)
-
-# timezone import etiwdi umıtpań
-from django.utils import timezone

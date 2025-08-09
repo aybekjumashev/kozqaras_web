@@ -224,7 +224,7 @@ svg {
 .article-content blockquote {
     border-left: 3px solid var(--bs-primary);
     padding: 1rem 1.5rem;
-    background-color: var(--bs-secondary-bg);
+    background-color: rgba(240, 240, 240, 0.05); /* opacity 0.5 */
     margin: 2rem 0;
     font-style: italic;
 }
@@ -319,3 +319,4 @@ svg {
 #scrollTopButton .bi {
     vertical-align: -0.1em;
 }
+

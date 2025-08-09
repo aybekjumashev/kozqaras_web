@@ -110,17 +110,27 @@
             {{ article.content|safe }}
         </div>
 
-        {# Telegram Kommentariyalar (eger URL kórsetilgen bolsa) #}
-        {% if article.telegram_post_url %} {# <<< TEKSERIW QOSÍLDÍ >>> #}
-            <div class="mt-5 pt-4 border-top border-secondary-subtle">
-            <h3 class="mb-3 h4">Pikir bildiriw</h3>
-            {# Vidjet ushın orın (ID hám jańa data atributı menen) #}
-            <div id="telegram-comments-container" data-discussion-url="{{ article.telegram_post_url }}"> {# <<< URL DATA ATRIBUTÍNA BERILDI >>> #}
-                {# Vidjet JS arqalı qosıladı #}
+        {% if article.telegram_post_url %} 
+        <div class="mt-5 pt-4 border-top border-secondary-subtle">
+        <h3 class="mb-3 h4">Pikirler</h3>
+
+        {% if comment_widget %}
+            <div id="telegram-comments-container" data-discussion-url="{{ article.telegram_post_url }}"> 
+                {{ comment_widget|safe }}
             </div>
-            <noscript>Pikirlerdi kóriw ushın JavaScriptti aktivlestiriń.</noscript>
+        {% else %}
+            <div class="alert alert-secondary mt-4 text-center" role="alert">
+                Házirshe hesh kim pikir pildirmegen.
             </div>
-        {% endif %} 
+        {% endif %}         
+            <div class="mt-4 text-center">
+                <a href="{{ article.telegram_post_url }}" class="btn btn-outline-secondary rounded-pill px-4">
+                    Pikir bildiriw <i class="bi bi-chevron-right"></i>
+                </a>
+            </div>
+        {% endif %}
+        
+        </div>
     </article>
 
 
@@ -129,82 +139,17 @@
 <a href="#" id="scrollTopButton" class="btn btn-primary btn-lg rounded-circle shadow" aria-label="Joqarıǵa shıǵıw">
     <i class="bi bi-chevron-up"></i>
 </a>
-
+<style>
+    .tgme_widget_message_reply .tgme_widget_message_text {
+        color: white;
+    }
+    .tgme_post_discussion .tgme_widget_message_footer {
+        color: gray;
+    };
+</style>
 {% endblock %}
 
-{% block extra_js %} {# <-- Bettiń ózine tán JavaScript ushın blok #}
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const commentsContainer = document.getElementById('telegram-comments-container');
-        // <<< Konteyner bar bolsa ǵana islew >>>
-        if (commentsContainer && commentsContainer.dataset.discussionUrl) { // <<< URL bar ekenin de tekseriw >>>
-    
-            const discussionUrl = commentsContainer.dataset.discussionUrl; // <<< URL di alıw >>>
-    
-            // Telegram vidjetin jańalaw funkciyası
-            const updateTelegramWidgetThemeLocal = (theme) => {
-                // Eski vidjetti alıp taslaw
-                while (commentsContainer.firstChild) {
-                    commentsContainer.removeChild(commentsContainer.firstChild);
-                }
-    
-                // Jańa vidjet skriptin jaratıw
-                const script = document.createElement('script');
-                script.async = true;
-                script.src = 'https://telegram.org/js/telegram-widget.js?22';
-    
-                // <<< data-telegram-discussion di dinamik belgilew >>>
-                // URL den kanal/gruppa hám post ID ni ajıratıp alıw kerek
-                // Mısal: https://t.me/kanal_ati/1234 -> kanal_ati/1234
-                let discussionData = '';
-                try {
-                    const urlParts = new URL(discussionUrl);
-                    const pathParts = urlParts.pathname.split('/').filter(part => part); // Bos elementlerdi alıp taslaw
-                    if (pathParts.length >= 2) {
-                        discussionData = `${pathParts[pathParts.length - 2]}/${pathParts[pathParts.length - 1]}`;
-                    } else {
-                       console.error("Telegram URL formatı nadurıs:", discussionUrl);
-                    }
-                } catch (e) {
-                    console.error("Telegram URL analizinde qátelik:", discussionUrl, e);
-                    discussionData = discussionUrl; // Eger analiz islemese, URL diń ózin jiberip kóriw
-                }
-    
-                if (discussionData) { // Eger durıs format tabılsa
-                     script.setAttribute('data-telegram-discussion', discussionData);
-                } else {
-                     console.warn("Telegram pikirleri ushın data-telegram-discussion anıqlanbadı.");
-                     return; // Skriptti qospaw
-                }
-                // <<< DINAMIK BELGILEW AQIRI >>>
-    
-    
-                script.setAttribute('data-comments-limit', '10');
-                script.setAttribute('data-width', '100%');
-                if (theme === 'dark') {
-                    script.setAttribute('data-dark', '1');
-                } else {
-                    script.setAttribute('data-dark', '0');
-                }
-                commentsContainer.appendChild(script);
-            }
-    
-            // Dáslepki temanı alıp, birinshi ret vidjetti júklew
-            const initialTheme = document.documentElement.getAttribute('data-bs-theme') || 'dark'; // || 'dark' qosıldı
-            updateTelegramWidgetThemeLocal(initialTheme);
-    
-            // 'themeChanged' járiyasın tıńlaw
-            document.addEventListener('themeChanged', (event) => {
-                if (event.detail && event.detail.theme) {
-                    updateTelegramWidgetThemeLocal(event.detail.theme);
-                }
-            });
-        } // <<< if commentsContainer ... aqırı >>>
-    });
-</script>
-</script>
-
-{# --- MAZMUNLAR DIZIMI (Table of Contents) Skripti --- #}
+{% block extra_js %} 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const contentContainer = document.getElementById('articleContentContainer');
