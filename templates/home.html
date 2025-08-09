@@ -50,10 +50,10 @@
               <p class="card-text text-secondary meta mb-3">
                 <small>{{ article.published_date|format_kaa_date }}</small>
               </p>
-              <div class="card-categories"> {# mt-auto #}
+              <div class="card-categories"> 
                 {% if article.categories.all %}
                   {% for cat in article.categories.all|slice:":3" %}
-                    <span class="badge rounded-pill fw-normal mb-1">{{ cat.name }}</span> {# me-1 mb-1 qosıldı #}
+                    <span class="badge rounded-pill fw-normal mb-1">{{ cat.name }}</span> 
                   {% endfor %}
                   {% if article.categories.count > 3 %}
                     <span class="badge rounded-pill bg-body fw-normal me-1 mb-1">+{{ article.categories.count|add:"-3" }}</span>
