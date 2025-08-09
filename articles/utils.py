@@ -23,7 +23,7 @@ def normalize_text(text):
     return text
 
 def get_comment_widget(post_url):
-    response = requests.get(post_url+'?embed=1&discussion=1')
+    response = requests.get(post_url+'?embed=1&discussion=1&comments_limit=100')
 
     if response.status_code == 200:
         html_content = response.text
