@@ -93,6 +93,13 @@ class Article(models.Model):
         help_text="Pikirlerdi jalǵaw ushın qollanılǵan Telegram postınıń tolıq siltemesi (https://...). Bos qaldırılsa, pikirler bólimi kórsetilmeydi."
     )
 
+    audio_summary = models.FileField(
+        upload_to='audio_summaries/',
+        blank=True,
+        null=True,
+        verbose_name="Audio Summary"
+    )
+
     class Meta:
         ordering = ['-published_date']
         verbose_name = "Maqala"
